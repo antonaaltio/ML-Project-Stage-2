@@ -1,0 +1,83 @@
+%config Completer.use_jedi = False
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split 
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.read_csv('WineQT.csv')
+df.drop(columns=['Id'],inplace=True)
+
+fig, axes = plt.subplots(1, 3, figsize=(15,4))
+axes[0].scatter(df['fixed acidity'],df['quality']);
+axes[0].set_xlabel('fixed acidity')
+axes[0].set_ylabel('quality')
+axes[0].set_title('fixed acidity vs quality')
+
+axes[1].scatter(df['volatile acidity'],df['quality']);
+axes[1].set_xlabel('volatile acidity')
+axes[1].set_ylabel('quality')
+axes[1].set_title('voltaile acidity vs quality')
+
+axes[2].scatter(df['citric acid'],df['quality']);
+axes[2].set_xlabel('citric acid')
+axes[2].set_ylabel('quality')
+axes[2].set_title('citric acid vs quality')
+
+fig, axes = plt.subplots(1, 3, figsize=(15,4))
+
+axes[0].scatter(df['residual sugar'],df['quality']);
+axes[0].set_xlabel('residual sugar')
+axes[0].set_ylabel('quality')
+axes[0].set_title('residual sugar vs quality')
+
+axes[1].scatter(df['chlorides'],df['quality']);
+axes[1].set_xlabel('chlorides')
+axes[1].set_ylabel('quality')
+axes[1].set_title('chlorides vs quality')
+
+axes[2].scatter(df['free sulfur dioxide'],df['quality']);
+axes[2].set_xlabel('free sulfur dioxide')
+axes[2].set_ylabel('quality')
+axes[2].set_title('free sulfur dioxide vs quality')
+
+fig, axes = plt.subplots(1, 3, figsize=(15,4))
+
+axes[0].scatter(df['total sulfur dioxide'],df['quality']);
+axes[0].set_xlabel('total sulfur dioxide')
+axes[0].set_ylabel('quality')
+axes[0].set_title('total sulfur dioxide vs quality')
+
+axes[1].scatter(df['density'],df['quality']);
+axes[1].set_xlabel('density')
+axes[1].set_ylabel('quality')
+axes[1].set_title('density vs quality')
+
+axes[2].scatter(df['pH'],df['quality']);
+axes[2].set_xlabel('pH')
+axes[2].set_ylabel('quality')
+axes[2].set_title('pH vs quality')
+
+fig, axes = plt.subplots(1, 2, figsize=(15,4))
+
+axes[0].scatter(df['sulphates'],df['quality']);
+axes[0].set_xlabel('sulphates')
+axes[0].set_ylabel('quality')
+axes[0].set_title('sulphates vs quality')
+
+axes[1].scatter(df['alcohol'],df['quality']);
+axes[1].set_xlabel('alcohol')
+axes[1].set_ylabel('quality')
+axes[1].set_title('alcohol vs quality')
+
+y = df['quality'].to_numpy()
+X = df.to_numpy()
+X = np.delete(X, 11, axis=1)
+
+X_train, X_test, y_train, y_test = train_test_split(
+     X, y, test_size=0.2, random_state=42)
+
+neigh_clf = KNeighborsClassifier(n_neighbors=5)
+neigh_clf.fit(X_train, y_train)
